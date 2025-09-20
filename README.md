@@ -14,13 +14,13 @@ The dataset is carefully curated and split into two categories:
 
   * Audio clips where the wake-up command (e.g., "Hello Nisha", "Hey Nisha") is spoken.
   * These examples train the model to recognize when it should respond.
-  * [Positive Dataset](data/positive_mapping.csv)
+  * [Positive Dataset](data/positive_mapping.psv)
 
 * **Negative Samples:**
 
   * Audio clips of normal conversations that do **not** contain wake-up commands.
   * These examples help the model **ignore casual chatter** and reduce false positives.
-  * [Negative Dataset](data/negative_mapping.csv)
+  * [Negative Dataset](data/negative_mapping.psv)
 
 ### Example CSV Structure
 
@@ -48,17 +48,17 @@ The system converts text sentences into MP3 audio files using multiple voices au
 1. **Load all text data**
 
    * The program reads the dataset containing all the sentences that need to be spoken.
-   * Example: `df = pd.read_csv("data/Negative_long_wakeup_dataset.csv", sep="|")`
+   * Example: `df = pd.read_psv("data/Negative_long_wakeup_dataset.psv", sep="|")`
 
 2. **Fetch available voices**
 
-   * Reads the [edge_tts.csv](Audio_generatoin/egde_tts.csv)
+   * Reads the [edge_tts.psv](Audio_generatoin/egde_tts.psv)
  file to get all the voices available for TTS.
    * Stores them in a list for processing.
    * Example:
 
      ```python
-     voices_df = pd.read_csv("Audio_generatoin/egde_tts.csv")
+     voices_df = pd.read_csv("Audio_generatoin/egde_tts.psv", sep = "|")
      voices_list = voices_df["voices"].str.strip().tolist()
      ```
 
