@@ -6,10 +6,10 @@ import re
 import time
 
 # Load dataset (choose long or single)
-df = pd.read_csv("data/Negative_long_weak)up_dataset.csv", sep="|")  # or "single_wake_up_dataset.csv"
+df = pd.read_csv("data/Negative_long_weak)up_dataset.psv", sep="|")  # or "single_wake_up_dataset.psv"
 
 # Load voices list
-voices_df = pd.read_csv("Audio_generatoin/egde_tts.csv")
+voices_df = pd.read_csv("Audio_generatoin/egde_tts.psv")
 voices_list = voices_df["voices"].str.strip().tolist()
 
 def sanitize_filename(text):

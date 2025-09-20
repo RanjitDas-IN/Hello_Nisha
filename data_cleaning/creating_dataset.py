@@ -13,7 +13,7 @@ en_US_CoraMultilingualNeural = sorted(os.listdir(r"Hello_Nisha/long_voices/en-US
 en_US_DavisMultilingualNeural = sorted(os.listdir(r"Hello_Nisha/long_voices/en-US-DavisMultilingualNeural"))
 
 
-df = pd.read_csv(r"Hello_Nisha/data/long_wake_up_dataset.csv", sep = "|")
+df = pd.read_csv(r"Hello_Nisha/data/long_wake_up_dataset.psv", sep = "|")
 # print(df.head())
 
 text_data = df["text"]
@@ -36,4 +36,4 @@ data = {
 }
 new_df = pd.DataFrame(data)
 print(new_df.columns)
-# new_df.to_csv(r'Hello_Nisha/data/temporary.csv', sep= "|" ,index=False)
+# new_df.to_csv(r'Hello_Nisha/data/temporary.psv', sep= "|" ,index=False)

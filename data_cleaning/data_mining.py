@@ -1,8 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-file_path = r"Hello_Nisha/data/long_wake_up_dataset.csv"
-# file_path = r"Hello_Nisha/data/mapping.csv"
+file_path = r"Hello_Nisha/data/long_wake_up_dataset.psv"
+# file_path = r"Hello_Nisha/data/mapping.psv"
 df= pd.read_csv(file_path, sep="|")
 
 print("Shape of the CSV:",df.shape)
@@ -123,7 +123,7 @@ def convert_weather_containing_utterance_to_google_search_intent_if_needed(csv_p
 def remove_outlier(
     csv_path: str,
     max_word_count: int,
-    cleaned_csv_path: str = "No_outlier_dataset.csv",
+    cleaned_csv_path: str = "No_outlier_dataset.psv",
     outliers_txt_path: str = "outliers.txt",
 ):
     """
