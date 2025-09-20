@@ -1,8 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-file_path = r"/home/ranjit/Desktop/projects/Hello_Nisha/data/long_wake_up_dataset.csv"
-# file_path = r"/home/ranjit/Desktop/projects/Hello_Nisha/data/single_wake_up_dataset.csv"
+file_path = r"Hello_Nisha/data/long_wake_up_dataset.csv"
+# file_path = r"Hello_Nisha/data/mapping.csv"
 df= pd.read_csv(file_path, sep="|")
 
 print("Shape of the CSV:",df.shape)

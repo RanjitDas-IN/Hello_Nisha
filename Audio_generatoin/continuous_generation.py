@@ -6,7 +6,7 @@ import re
 import time
 
 # Load dataset (choose long or single)
-df = pd.read_csv("data/long_wake_up_dataset.csv", sep="|")  # or "single_wake_up_dataset.csv"
+df = pd.read_csv("data/Negative_long_weak)up_dataset.csv", sep="|")  # or "single_wake_up_dataset.csv"
 
 # Load voices list
 voices_df = pd.read_csv("Audio_generatoin/egde_tts.csv")
@@ -19,7 +19,7 @@ def sanitize_filename(text):
     return text
 
 async def generate_voices_for_voice(voice_name):
-    output_dir = os.path.join("short_voices", voice_name)
+    output_dir = os.path.join("negative_voices", voice_name)
     os.makedirs(output_dir, exist_ok=True)
     
     for idx, row in df.iterrows():
