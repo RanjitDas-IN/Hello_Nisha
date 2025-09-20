@@ -6,7 +6,7 @@ import re
 import time
 
 # Load dataset (choose long or single)
-df = pd.read_csv("data/Negative_long_weak)up_dataset.psv", sep="|")  # or "single_wake_up_dataset.psv"
+df = pd.read_csv("data/Negative_long_weakup_dataset.psv", sep="|")  # or "single_wake_up_dataset.psv"
 
 # Load voices list
 voices_df = pd.read_csv("Audio_generatoin/egde_tts.psv")
@@ -29,7 +29,7 @@ async def generate_voices_for_voice(voice_name):
         
         # ✅ Skip if file already exists
         if os.path.exists(output_path):
-            # print(f"[{voice_name}] Skipped (already exists): {output_path}")
+            print(f"[{voice_name}] Skipped (already exists): {output_path}")
             continue
         
         communicate = edge_tts.Communicate(text, voice_name)

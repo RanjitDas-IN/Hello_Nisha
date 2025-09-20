@@ -7,5 +7,6 @@ with open(r"Hello_Nisha/txt", "r") as file:
 data = "\n".join(f'{line}|' for line in content)
 print(data)
 
+
 with open("Hello_Nisha/txt", "w") as file:
     file.write(data) 

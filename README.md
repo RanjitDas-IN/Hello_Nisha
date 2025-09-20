@@ -1,5 +1,5 @@
 # Nisha Wake-Up Detection Dataset & Training a CRNN
-In this project i use my own format `.psv` pipe-separated file. I use a pipe (|) as a separator
+In this project i'm using format `.psv` pipe-separated file. I use a pipe (|) as a separator
 ---
 
 ## Overview
