@@ -22,7 +22,7 @@ The dataset is carefully curated and split into two categories:
   * These examples help the model **ignore casual chatter** and reduce false positives.
   * [Negative Dataset](data/negative_mapping.psv)
 
-### Example CSV Structure
+### Example dataset Structure
 
 ```
 text|voice1|voice2|voice3|label
@@ -32,6 +32,31 @@ I can’t find my keys|neg_001_I_cant_find_my_keys.mp3|neg_001_I_cant_find_my_ke
 
 * `label=1` → Positive (wake-up)
 * `label=0` → Negative (background conversation)
+
+# Example graph for Text length distribution
+
+![Text Length Distribution](graphs/text_length_distribution.png)
+
+
+[click here to see the graph](graphs/text_length_distribution.png)
+
+### 🔹 A big peak around 10–15 characters → means most sentences are medium-length greetings or general conversations like “Hello Nisha, how are you doing today?”
+
+### 🔹 What the graph is?
+
+It’s a **histogram** (with KDE curve if enabled) that shows how many of your wake-up sentences fall into different ranges of length.
+
+* **X-axis** → the **length of the text** (in characters).
+
+  * e.g., `"Nisha"` = 5 characters
+  * `"Hello Nisha, how are you?"` ≈ 27 characters
+
+* **Y-axis** → the **frequency** (how many sentences have that length).
+
+* The **bars** → show counts of texts within that range.
+
+* The **smooth KDE curve** (if shown) → estimates the probability distribution (a smoothed line over the bars).
+
 ---
 
 
@@ -47,8 +72,8 @@ The system converts text sentences into MP3 audio files using multiple voices au
 
 1. **Load all text data**
 
-   * The program reads the dataset containing all the sentences that need to be spoken.
-   * Example: `df = pd.read_psv("data/Negative_long_wakeup_dataset.psv", sep="|")`
+   * [The program](Audio_generatoin/continuous_generation.py) reads the dataset containing all the sentences that need to be spoken.
+   * Example: `df = pd.read_csv("data/Negative_long_wakeup_dataset.psv", sep="|")`
 
 2. **Fetch available voices**
 
