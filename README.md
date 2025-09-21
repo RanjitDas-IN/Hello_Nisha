@@ -40,7 +40,7 @@ I can’t find my keys|neg_001_I_cant_find_my_keys.mp3|neg_001_I_cant_find_my_ke
 
 [click here to see the graph](graphs/text_length_distribution.png)
 
-### 🔹 A big peak around 10–15 characters → means most sentences are medium-length greetings or general conversations like “Hello Nisha, how are you doing today?”
+### 🔹 A big peak around 17-27 characters → means most sentences are medium-length greetings or general conversations like “Hello Nisha, how are you doing today?”
 
 ### 🔹 What the graph is?
 
@@ -66,7 +66,7 @@ This section explains, in simple terms, how the system generates MP3 files for N
 
 ## 1. Overview
 
-The system converts text sentences into MP3 audio files using multiple voices automatically, so you don't have to record each sentence manually. It uses Microsoft Edge TTS for voice generation.
+The system converts text sentences into MP3 audio files using multiple voices automatically, so you don't have to record each sentence manually. It uses Microsoft Edge TTS for [voice generation](Audio_generatoin/continuous_generation.py).
 
 ## 2. Step-by-Step Workflow
 
