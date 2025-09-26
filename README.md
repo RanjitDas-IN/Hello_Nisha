@@ -115,45 +115,40 @@ The script automatically converts all text sentences into audio files using mult
 
 
 
+## What I Need to Do Next (Step-by-step plan)
 
-## Training Objective
+### **Step 1: Train classifier**
 
-The model aims to:
-
-1. **Wake up reliably** when the trigger phrase is spoken.
-2. **Ignore irrelevant conversations** or background noise.
-3. Maintain **low latency** for instant responsiveness.
-4. Achieve **high accuracy**, minimizing both false positives and false negatives.
-
-## Best Practices I found
-
-1. **Keep Positive & Negative Samples Separate:**
-
-   * Map each text example to its corresponding MP3 file before merging.
-   * Ensure positive and negative samples are labeled correctly.
-
-2. **Add a Label Column:**
-
-   * Positive samples: `label=1`
-   * Negative samples: `label=0`
-
-3. **Merge Carefully for Training:**
-
-   * Once both CSVs are labeled, merge into a single training file.
-   * Preserve mapping of each text to its respective MP3 files.
-
-4. **Maintain Diversity:**
-
-   * Use a mix of short and long sentences.
-   * Include varied conversational tones in negative samples.
+* Start simple: **Logistic Regression / Linear Layer / MLP** on embeddings.
+* Input: 768-dim HuBERT embedding.
+* Output: probability of “wake word present” (sigmoid → binary cross-entropy loss).
 
 ---
 
-## Getting Started
+### **Step 2: Validate**
 
-1. Prepare your positive and negative CSVs with MP3 mappings.
-2. Add the `label` column for each.
-3. Merge them carefully into a single CSV if desired.
-4. Train your wake-up detection model using this labeled dataset.
+* Split manifest into **train/val** (e.g., 80/20 by file, so same file doesn’t leak into both).
+* Train classifier, check accuracy/F1.
+* Tune threshold (e.g., 0.5 → 0.7) to reduce false positives.
 
-This setup ensures that Nisha can **respond only to intended wake-up phrases** and ignore irrelevant chatter, making her highly accurate and robust in real-world environments.
+---
+
+### **Step 3: Inference (real usage)**
+
+* Take streaming audio (1–7s or longer).
+* Apply same windowing (0.8s with 0.4 hop).
+* For each window:
+
+  * Extract HuBERT embedding.
+  * Run classifier → probability.
+* If several consecutive windows exceed threshold → **detect “Nisha”**.
+
+---
+
+### **Optional next steps**
+
+* **Data augmentation**: add background noise, reverb, pitch shifts to improve robustness.
+* **Model upgrade**: instead of frozen HuBERT + classifier, try fine-tuning HuBERT itself (if GPU resources allow).
+* **Sequence modeling**: add a tiny CNN or RNN on top of embeddings to capture context across overlapping windows.
+
+---

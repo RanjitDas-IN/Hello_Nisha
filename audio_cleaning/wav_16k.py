@@ -4,7 +4,7 @@ import soundfile as sf
 
 # Input and output directories
 input_dir = r"long_voices"
-output_dir = r"wav_16k_PCM_16_positive_voices"
+output_dir = r"wav_16k_positive_voices"
 
 # Walk through all files in input_dir
 for root, _, files in os.walk(input_dir):
@@ -30,7 +30,7 @@ for root, _, files in os.walk(input_dir):
             output_path = os.path.join(target_folder, file.replace(".mp3", ".wav"))
 
             # Save as WAV float32
-            # sf.write(output_path, y, 16000, subtype='FLOAT')
-            sf.write(output_path, y, 16000, subtype="PCM_16")
+            sf.write(output_path, y, 16000, subtype='FLOAT')
+            # sf.write(output_path, y, 16000, subtype="PCM_16")
 
             # print(f"{input_path}")
