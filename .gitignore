@@ -2,9 +2,10 @@ venv
 data/temporary.csv
 long_voices
 short_voices
-txt
 tempp.py
 negative_voices
 wav_16k_negative_voices
 wav_16k_positive_voices
 HuBERT_dataset
+Model
+corpus_for_mfa

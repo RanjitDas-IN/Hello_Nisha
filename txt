@@ -1,0 +1,19 @@
+# TMPDIR=~/tmp_hello_nisha pip install torch torchaudio torchvision
+
+
+
+
+
+mfa g2p \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt \
+    english_us_arpa \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt
+
+
+mfa align \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt \
+  english_us_arpa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/aligned \
+  --clean \
+  --verbose
