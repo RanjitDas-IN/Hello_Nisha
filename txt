@@ -1,15 +1,22 @@
-# TMPDIR=~/tmp_hello_nisha pip install torch torchaudio torchvision
+# I need to install the libraries this way:
+ ```bash
+ TMPDIR=~/tmp_hello_nisha pip install torch torchaudio torchvision
+```
 
-
-
-
-
+## Active the MFA Environment.
+```bash
+conda activate mfa_env
+```
+## Next create the ARPABET Phonetic:
+```bash
 mfa g2p \
     /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt \
     english_us_arpa \
     /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt
+```
 
-
+## Create the alignments of `.wav` files with `.lab` :
+```bash
 mfa align \
   /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa \
   /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt \
@@ -17,3 +24,7 @@ mfa align \
   /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/aligned \
   --clean \
   --verbose
+```
+
+
+

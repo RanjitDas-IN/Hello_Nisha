@@ -1,11 +1,19 @@
-# Nisha Wake-Up Detection Dataset & Training a CRNN
-In this project i'm using format `.psv` pipe-separated file. I use a pipe (|) as a separator
+# Hello Nisha (Python + Anaconda + HuBERT + MLP)
+
+Nisha Wake-Up Detection Dataset & Training a CRNN.  
+In this project, I’m using the `.psv` (pipe-separated values) format, where a pipe (`|`) acts as the separator.  
+A key design choice is the use of **ARPABET phonetic transcriptions**, which exponentially improves alignment and model accuracy by providing precise, standardized pronunciations—especially for critical words like *NISHA*.  
+
+
 ---
 
 ## Overview
 
 This project is focused on building a **wake-up word detection system** for my personal assistant, Nisha. The goal is to ensure that Nisha can **accurately detect the wake-up phrase** while ignoring all irrelevant background conversations.
 
+
+
+# Data Collection (text data)
 ## Dataset Structure
 
 The dataset is carefully curated and split into two categories:
@@ -24,11 +32,37 @@ The dataset is carefully curated and split into two categories:
 
 ### Example dataset Structure
 
-```
+<!-- ```md
 text|voice1|voice2|voice3|label
 Hello Nisha|001_Hello_Nisha.mp3|001_Hello_Nisha.mp3|001_Hello_Nisha.mp3|1
 I can’t find my keys|neg_001_I_cant_find_my_keys.mp3|neg_001_I_cant_find_my_keys.mp3|neg_001.mp3|0
-```
+``` -->
+<table>
+  <tr>
+    <th style="color:lightgreen;">text</th>
+    <th style="color:white;">voice1</th>
+    <th style="color:#ADD8E6;">voice2</th>
+    <th style="color:#7f8282;">voice3</th>
+    <th style="color:#12121;">.....</th>
+    <th>label</th>
+  </tr>
+  <tr>
+    <td style="color:lightgreen;">Hello Nisha</td>
+    <td style="color:white;">001_Hello_Nisha.mp3</td>
+    <td style="color:#ADD8E6;">001_Hello_Nisha.mp3</td>
+    <td style="color:#7f8282;">001_Hello_Nisha.mp3</td>
+    <td style="color:#12121;">.....</td>
+    <td style="color:pink;">1</td>
+  </tr>
+  <tr>
+    <td style="color:lightgreen;">I can’t find my keys</td>
+    <td style="color:white;">neg_001_I_cant_find_my_keys.mp3</td>
+    <td style="color:#ADD8E6;">neg_001_I_cant_find_my_keys.mp3</td>
+    <td style="color:#7f8282;">neg_001_I_cant_find_my_keys.mp3</td>
+    <td style="color:#12121;">.....</td>
+    <td style="color:pink;">0</td>
+  </tr>
+</table>
 
 * `label=1` → Positive (wake-up)
 * `label=0` → Negative (background conversation)
@@ -59,8 +93,8 @@ It’s a **histogram** (with KDE curve if enabled) that shows how many of your w
 
 ---
 
-
-# How MP3 Files Are Created for Nisha's Wake-Up System
+# #Data creation (audio data)
+## How MP3 Files Are Created for Nisha's Wake-Up System
 
 This section explains, in simple terms, how the system generates MP3 files for Nisha, including a bit of technical workflow for context.
 
@@ -99,56 +133,62 @@ The system converts text sentences into MP3 audio files using multiple voices au
    * Filenames are sanitized and zero-padded for easy tracking.
    * Example filename: `001_Hello_Nisha.mp3` & `002_Weak_up_Nisha.mp3`
 
-## 3. Analogy
 
-Think of it like a **bakery**:
-
-* Recipes = sentences
-* Bakers = voices
-* Cakes = MP3 files
-* Labels on cakes = file names
-* If a cake already exists, the baker skips making it.
-
-## 4. Summary
+## 4. Audio creation Summary
 
 The script automatically converts all text sentences into audio files using multiple voices, handling the process asynchronously and efficiently. This ensures that hundreds of audio clips can be generated quickly without manual recording.
-
-
-
-## What I Need to Do Next (Step-by-step plan)
-
-### **Step 1: Train classifier**
-
-* Start simple: **Logistic Regression / Linear Layer / MLP** on embeddings.
-* Input: 768-dim HuBERT embedding.
-* Output: probability of “wake word present” (sigmoid → binary cross-entropy loss).
+(It is very time taking....)
 
 ---
 
-### **Step 2: Validate**
+# I need to install the libraries this way:
+#### Because in my virtual env there are no space is left.
+ ```bash
+ TMPDIR=~/tmp_hello_nisha pip install torch torchaudio torchvision
+```
+# #Pre-processing steps: (using Anaconda + MFA)
 
-* Split manifest into **train/val** (e.g., 80/20 by file, so same file doesn’t leak into both).
-* Train classifier, check accuracy/F1.
-* Tune threshold (e.g., 0.5 → 0.7) to reduce false positives.
+## 1. Active the MFA Environment.
+```bash
+conda activate mfa_env
+```
+## 2. Next create the ARPABET Phonetic:
+```bash
+mfa g2p \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt \
+    english_us_arpa \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words_mfa_ready.txt
+```
 
----
+## Output: [click here](data/1_local_lexicon.txt)
+```
+NISHA           N IY SH AA
+NISHA           N IY SH AH
+NISHA           N IH SH AA
+NISHA           N IH SH AH
+NISHA           N IHH SH AA
+NISHA           N IIH SH AA
+able            AH0 B AH0 L
+able	        EY1 B AH0 L
+active	        AE1 K T IH0 V
+acting	        AE1 K T IH0 NG
+activity	    AE0 K T IH1 V AH0 T IY0
+activity	    AE0 K T IH1 V IH0 T IY0
+activities	    AE0 K T IH1 V AH0 T IY0 Z
+```
+## 3. Create the alignments of `.wav` files with `.lab` :
+```bash
+mfa align \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt \
+  english_us_arpa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/aligned \
+  --clean \
+  --verbose
+```
+## Output: [click here](data/001_Hey_did_you_finish_that_homework_yet.TextGrid)
 
-### **Step 3: Inference (real usage)**
 
-* Take streaming audio (1–7s or longer).
-* Apply same windowing (0.8s with 0.4 hop).
-* For each window:
+## 4. See the analysis Report: [click here](data/alignment_analysis.csv)
 
-  * Extract HuBERT embedding.
-  * Run classifier → probability.
-* If several consecutive windows exceed threshold → **detect “Nisha”**.
 
----
-
-### **Optional next steps**
-
-* **Data augmentation**: add background noise, reverb, pitch shifts to improve robustness.
-* **Model upgrade**: instead of frozen HuBERT + classifier, try fine-tuning HuBERT itself (if GPU resources allow).
-* **Sequence modeling**: add a tiny CNN or RNN on top of embeddings to capture context across overlapping windows.
-
----

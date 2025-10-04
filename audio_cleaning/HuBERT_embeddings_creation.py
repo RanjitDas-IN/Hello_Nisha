@@ -8,7 +8,7 @@ import numpy as np
 # ----------------------
 # Paths
 # ----------------------
-manifest_path = r"/home/ranjit/Desktop/projects/Hello_Nisha/data/windowed_manifest.psv"
+manifest_path = r"data/window_manifest.psv"
 output_dir = r"/home/ranjit/Desktop/projects/Hello_Nisha/HuBERT_dataset"
 os.makedirs(output_dir, exist_ok=True)
 
@@ -55,6 +55,13 @@ for idx, row in df.iterrows():
 
     if segment.size(1) == 0:
         continue  # skip empty windows
+
+    # >>> ADD THIS BLOCK <<<
+    MIN_SAMPLES = 400  # ~25 ms at 16kHz
+    if segment.size(1) < MIN_SAMPLES:
+        pad_len = MIN_SAMPLES - segment.size(1)
+        segment = torch.nn.functional.pad(segment, (0, pad_len))
+
 
     # Extract features
     inputs = feature_extractor(segment.squeeze().numpy(), sampling_rate=sr, return_tensors="pt", padding=True)

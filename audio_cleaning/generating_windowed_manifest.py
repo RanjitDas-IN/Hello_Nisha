@@ -10,7 +10,8 @@ from praatio import tgio
 CORPUS_ROOT = "corpus_for_mfa"
 ALIGNED_ROOT = "corpus_for_mfa/aligned"
 OUT_DIR = "corpus_for_mfa/windowed"
-MANIFEST = os.path.join(OUT_DIR, "window_manifest.psv")
+MANIFEST = os.path.join(r"data", "window_manifest.psv")
+
 WAKEWORD = "NISHA"            # word to consider positive (case-insensitive)
 WINDOW_S = 1.5                # window length in seconds
 NEG_PER_FILE = 2              # how many negatives to sample per file with positives

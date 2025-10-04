@@ -42,3 +42,10 @@ Because the manifest is **time-based (seconds)**, but audio arrays are **sample-
   * That corresponds exactly to `0.8s → 1.6s` of audio.
 
 ---
+
+
+The **`generating_windowed_manifest.py`** script is responsible for creating training data windows. It walks through your aligned corpus, extracts both positive (wake word) and negative (non-wake word) segments, and saves them as `.wav` snippets. Alongside that, it writes a manifest file (`data/window_manifest.psv`) listing the snippet path, start time, end time, and label. This manifest is the bridge between raw aligned audio and downstream embedding extraction, ensuring you have balanced positive/negative samples to train on.
+
+The **`HuBERT_embeddings_creation.py`** script consumes that manifest to generate embeddings. For each snippet path listed, it loads the waveform, resamples to 16 kHz, slices out the window, and passes the audio through a pre-trained HuBERT model (`facebook/hubert-base-ls960`). It then mean-pools the hidden states to get a fixed-size embedding vector, associates it with the label, and finally stores all embeddings/labels in a compressed `.npz` file. In other words, this step turns your audio segments into numerical vectors usable for training wake-word detection models.
+
+👉 If you ran into an error while executing `HuBERT_embeddings_creation.py`, it’s likely linked to either (1) file paths in `window_manifest.psv`, (2) audio snippet sizes (empty segments), or (3) Hugging Face model loading/transformers–torchaudio version mismatch. Would you like me to troubleshoot based on the exact error traceback you saw?

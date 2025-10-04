@@ -1,5 +1,5 @@
 import numpy as np
-import os,time
+import os, time
 import random
 import librosa  # still included for consistency
 import joblib
@@ -46,7 +46,7 @@ print(f"Train: {X_train.shape}, Val: {X_val.shape}, Test: {X_test.shape}")
 def augment_embeddings(batch, noise_std=0.01, dropout_rate=0.05, mask_fraction=0.1):
     augmented = batch.copy()
 
-    # Add Gaussian noise with varied std
+    # Add Gaussian noise
     noise = np.random.normal(0, noise_std * np.random.uniform(0.5, 1.5), augmented.shape)
     augmented += noise
 
@@ -73,15 +73,21 @@ mlp = MLPClassifier(
     solver='adam',
     alpha=1e-4,
     learning_rate_init=1e-3,
-    max_iter=1,  # we will use partial_fit loop
+    max_iter=1,  # We'll use partial_fit loop
     warm_start=True,
     random_state=42,
     verbose=False
 )
 
-# Initialize partial_fit with classes
+# Initialize with known classes
 classes = np.unique(y_train)
-mlp.partial_fit(X_train[:2], y_train[:2], classes=classes)
+# Ensure first call includes at least one sample per class
+first_idnices = []
+for c in classes:
+    idx = np.where(y_train == c)[0][0]
+    first_indices.append(idx)
+mlp.partial_fit(X_train[first_indices], y_train[first_indices], classes=classes)
+
 
 # ----------------------
 # Training loop with early stopping
@@ -93,12 +99,12 @@ patience_counter = 0
 history = {"train_acc": [], "val_acc": []}
 
 for epoch in range(epochs):
-    # Shuffle training data each epoch
+    # Shuffle and augment
     X_train, y_train = shuffle(X_train, y_train, random_state=epoch)
     X_train_aug = augment_embeddings(X_train)
 
-    # Train with partial_fit
-    mlp.partial_fit(X_train_aug, y_train)
+    # ✅ Important fix — always pass classes
+    mlp.partial_fit(X_train_aug, y_train, classes=classes)
 
     # Evaluate on train and validation
     y_train_pred = mlp.predict(X_train)
@@ -112,7 +118,7 @@ for epoch in range(epochs):
 
     print(f"Epoch {epoch+1}/{epochs} - Train Acc: {train_acc:.4f}, Val Acc: {val_acc:.4f}")
 
-    # Early stopping check
+    # Early stopping logic
     if val_acc > best_val_acc:
         best_val_acc = val_acc
         patience_counter = 0
@@ -134,8 +140,8 @@ cm = confusion_matrix(y_test, y_pred)
 report = classification_report(y_test, y_pred)
 roc = roc_auc_score(y_test, best_mlp.predict_proba(X_test)[:, 1])
 
-print("=== MLP Final Evaluation ===")
-print(f"Accuracy: {acc}")
+print("\n=== MLP Final Evaluation ===")
+print(f"Accuracy: {acc:.4f}")
 print(f"ROC-AUC: {roc:.4f}")
 print("Confusion Matrix:")
 print(cm)
@@ -147,7 +153,7 @@ print(report)
 # ----------------------
 with open(results_txt, "w") as f:
     f.write("=== MLP Final Evaluation ===\n")
-    f.write(f"Accuracy: {acc}\n")
+    f.write(f"Accuracy: {acc:.4f}\n")
     f.write(f"ROC-AUC: {roc:.4f}\n")
     f.write("Confusion Matrix:\n")
     f.write(np.array2string(cm))
@@ -158,11 +164,11 @@ with open(results_txt, "w") as f:
         f.write(f"Epoch {e+1}: Train {ta:.4f}, Val {va:.4f}\n")
 
 print(f"Results saved to {results_txt}")
-
+ 
 # ----------------------
 # Save final trained model
 # ----------------------
-print("Sleeping for 30 seconds")
+print("Sleeping for 30 seconds...")
 time.sleep(30)
 joblib.dump(best_mlp, model_path)
 print(f"Final trained MLP model saved to {model_path}")
