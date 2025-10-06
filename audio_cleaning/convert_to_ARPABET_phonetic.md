@@ -1,0 +1,28 @@
+## Active the MFA Environment.
+```bash
+conda activate mfa_env
+```
+
+
+
+
+## Next create the ARPABET Phonetic:
+```bash
+mfa g2p \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words.txt \
+    english_us_arpa \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt
+```
+
+
+
+## Create the alignments of `.wav` files with `.lab` :
+```bash
+mfa align \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt \
+  english_us_arpa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/aligned \
+  --clean \
+  --verbose
+```

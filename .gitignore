@@ -6,6 +6,10 @@ tempp.py
 negative_voices
 wav_16k_negative_voices
 wav_16k_positive_voices
-HuBERT_dataset
+2_HuBERT_dataset
 Model
 corpus_for_mfa
+Audio_generatoin
+data_cleaning
+testing
+Use/__pycache__

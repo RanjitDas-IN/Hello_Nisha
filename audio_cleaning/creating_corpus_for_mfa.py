@@ -1,3 +1,9 @@
+"""
+creating the .lab
+creating the .wav
+whic is needed by the MFA (conda + mfa environment) 
+"""
+
 import os
 import pandas as pd
 import string

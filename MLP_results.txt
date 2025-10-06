@@ -1,33 +1,31 @@
 === MLP Final Evaluation ===
-Accuracy: 0.9946
-ROC-AUC: 0.9994
+Accuracy: 0.9410
+ROC-AUC: 0.9678
 Confusion Matrix:
-[[1729    7]
- [   3  121]]
+[[1090   25]
+ [  68  392]]
 Classification Report:
               precision    recall  f1-score   support
 
-           0       1.00      1.00      1.00      1736
-           1       0.95      0.98      0.96       124
+           0       0.94      0.98      0.96      1115
+           1       0.94      0.85      0.89       460
 
-    accuracy                           0.99      1860
-   macro avg       0.97      0.99      0.98      1860
-weighted avg       0.99      0.99      0.99      1860
+    accuracy                           0.94      1575
+   macro avg       0.94      0.91      0.93      1575
+weighted avg       0.94      0.94      0.94      1575
 
 Training History (Accuracies):
-Epoch 1: Train 0.9836, Val 0.9801
-Epoch 2: Train 0.9888, Val 0.9914
-Epoch 3: Train 0.9921, Val 0.9919
-Epoch 4: Train 0.9905, Val 0.9828
-Epoch 5: Train 0.9945, Val 0.9914
-Epoch 6: Train 0.9958, Val 0.9935
-Epoch 7: Train 0.9972, Val 0.9952
-Epoch 8: Train 0.9937, Val 0.9887
-Epoch 9: Train 0.9978, Val 0.9952
-Epoch 10: Train 0.9978, Val 0.9935
-Epoch 11: Train 0.9987, Val 0.9962
-Epoch 12: Train 0.9985, Val 0.9946
-Epoch 13: Train 0.9954, Val 0.9898
-Epoch 14: Train 0.9985, Val 0.9935
-Epoch 15: Train 0.9964, Val 0.9892
-Epoch 16: Train 0.9979, Val 0.9925
+Epoch 1: Train 0.9112, Val 0.9168
+Epoch 2: Train 0.9047, Val 0.9092
+Epoch 3: Train 0.9316, Val 0.9270
+Epoch 4: Train 0.9418, Val 0.9378
+Epoch 5: Train 0.9444, Val 0.9416
+Epoch 6: Train 0.9470, Val 0.9346
+Epoch 7: Train 0.9491, Val 0.9397
+Epoch 8: Train 0.9497, Val 0.9416
+Epoch 9: Train 0.9587, Val 0.9486
+Epoch 10: Train 0.9543, Val 0.9416
+Epoch 11: Train 0.9581, Val 0.9460
+Epoch 12: Train 0.9571, Val 0.9448
+Epoch 13: Train 0.9622, Val 0.9486
+Epoch 14: Train 0.9633, Val 0.9479

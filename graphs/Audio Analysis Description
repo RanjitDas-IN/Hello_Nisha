@@ -1,0 +1,26 @@
+
+Audio Analysis Description:
+
+1. Energy Variation:
+   - Minimum Energy: 44.90
+   - Maximum Energy: 1024.00
+   - Mean Energy: 808.38
+   - Description: The audio shows up-and-down variations in loudness corresponding to speech and quieter/noise segments.
+
+2. RMS (Amplitude) Contour:
+   - Minimum RMS: 0.5368
+   - Maximum RMS: 1.0000
+   - Mean RMS: 0.8844
+   - Description: RMS contour indicates how amplitude changes over time, highlighting louder vs quieter sections of the audio.
+
+3. Pitch Contour:
+   - Minimum Pitch (Hz): 152.98
+   - Maximum Pitch (Hz): 1694.49
+   - Mean Pitch (Hz): 194.25
+   - Description: Shows the fundamental frequency of voiced segments. Variations indicate natural speech intonation and emphasis.
+
+4. Spectrogram / Frequency Content:
+   - Description: The audio contains energy across multiple frequencies. Higher frequencies may indicate noise or sibilance, while concentrated mid frequencies correspond to speech. Variations over time reflect speech dynamics.
+
+5. Estimated Noise Ratio:
+   - Approximately 20.13% of frames are below the noise threshold (quieter segments likely containing background noise).

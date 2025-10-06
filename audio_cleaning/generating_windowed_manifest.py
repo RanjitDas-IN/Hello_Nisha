@@ -1,3 +1,8 @@
+"""
+Based on the created textgrids by MFA,
+gererated the windows such that the model will understand in which window the weak word appears.
+"""
+
 #!/usr/bin/env python3
 import os
 import random
@@ -53,6 +58,7 @@ for root, _, files in os.walk(CORPUS_ROOT):
         # get words tier (case-insensitive)
         try:
             words_tier = tg.tierDict["words"]
+            
         except KeyError:
             continue
 
@@ -61,11 +67,13 @@ for root, _, files in os.walk(CORPUS_ROOT):
         for (start, end, label) in words_tier.entryList:
 
             lab = label.strip()
+            # print(lab)
             if lab.upper() == WAKEWORD.upper():
                 pos_intervals.append((start, end))
 
         # create positive windows
         for (s, e) in pos_intervals:
+            # print(pos_intervals)
             center = (s + e) / 2.0
             wstart = clamp(center - WINDOW_S/2.0, 0.0, audio_dur - WINDOW_S)
             wend = wstart + WINDOW_S

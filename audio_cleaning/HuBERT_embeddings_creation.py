@@ -9,7 +9,7 @@ import numpy as np
 # Paths
 # ----------------------
 manifest_path = r"data/window_manifest.psv"
-output_dir = r"/home/ranjit/Desktop/projects/Hello_Nisha/HuBERT_dataset"
+output_dir = r"/home/ranjit/Desktop/projects/Hello_Nisha/2_HuBERT_dataset"
 os.makedirs(output_dir, exist_ok=True)
 
 # Output file
@@ -20,8 +20,8 @@ output_file = os.path.join(output_dir, "hubert_embeddings.npz")
 # ----------------------
 device = torch.device("cpu")
 
-feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained("facebook/hubert-base-ls960")
-model = HubertModel.from_pretrained("facebook/hubert-base-ls960")
+feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained("facebook/hubert-base-ls960", local_files_only=True)
+model = HubertModel.from_pretrained("facebook/hubert-base-ls960", local_files_only=True)
 model = model.to(device)
 model.eval()
 

@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # ----------------------
 # Paths
 # ----------------------
-dataset_path = r"/home/ranjit/Desktop/projects/Hello_Nisha/HuBERT_dataset/hubert_embeddings.npz"
+dataset_path = r"2_HuBERT_dataset/hubert_embeddings.npz"
 results_txt = r"/home/ranjit/Desktop/projects/Hello_Nisha/MLP_results.txt"
 model_dir = r"/home/ranjit/Desktop/projects/Hello_Nisha/Model"
 os.makedirs(model_dir, exist_ok=True)
@@ -82,9 +82,10 @@ mlp = MLPClassifier(
 # Initialize with known classes
 classes = np.unique(y_train)
 # Ensure first call includes at least one sample per class
-first_idnices = []
+first_indices = []
 for c in classes:
     idx = np.where(y_train == c)[0][0]
+    print(idx)
     first_indices.append(idx)
 mlp.partial_fit(X_train[first_indices], y_train[first_indices], classes=classes)
 
