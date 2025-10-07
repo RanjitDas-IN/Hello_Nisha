@@ -13,7 +13,7 @@ DEFAULT_MIC_DEVICE_INDEX = 0    # None = system default input
 DEFAULT_OUTPUT_DEVICE_INDEX = 7 # None = system default output
 DEFAULT_THRESHOLD = 1500           # detection threshold on residual RMS (tune)
 DEFAULT_BLOCKSIZE = 100            # lower -> lower latency
-DEFAULT_LISTEN_DELAY = 1.5         # seconds to wait before enabling detection
+DEFAULT_LISTEN_DELAY = 0.5         # seconds to wait before enabling detection
 
 # NLMS adaptive filter default params (echo canceller)
 DEFAULT_FILTER_LEN = 512           # number of taps in adaptive filter (tune: 256..1024)
@@ -59,9 +59,9 @@ def FullDuplexPlayer(audio_file_path: str,
     def callback(indata, outdata, frames, time_info, status):
         nonlocal ref_buffer, w
 
-        if status:
+        # if status:
             # occasional status (underflow, etc.)
-            print("[Stream status]", status)
+            # print("[Stream status]", status)
             
 
         # default silence

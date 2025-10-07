@@ -1,0 +1,149 @@
+# I need to install the libraries this way:
+ ```bash
+ TMPDIR=~/tmp_hello_nisha pip install torch torchaudio torchvision
+```
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+, local_files_only=True
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+## Active the MFA Environment.
+```bash
+conda activate mfa_env
+```
+
+
+
+
+## Next create the ARPABET Phonetic:
+```bash
+mfa g2p \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_unique_words.txt \
+    english_us_arpa \
+    /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt
+```
+
+
+
+## Create the alignments of `.wav` files with `.lab` :
+```bash
+mfa align \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/1_local_lexicon.txt \
+  english_us_arpa \
+  /home/ranjit/Desktop/projects/Hello_Nisha/corpus_for_mfa/aligned \
+  --clean \
+  --verbose
+```
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+635_Hey_Nisha_give_this_textbook_4_points.wav: No weak word (confidence: 1.00)
+043_Nisha_was_the_one_who_told_me_about_it.wav: No weak word (confidence: 1.00)
+008_Good_night_Nisha.wav: No weak word (confidence: 1.00)
+194_Nisha_you_look_amazing_today.wav: No weak word (confidence: 1.00)
+569_Nisha_message_Rhea_r_u_bringing_the_notes_or_your_excuses_again.wav: No weak word (confidence: 1.00)
+214_Can_you_believe_it_Nisha.wav: No weak word (confidence: 1.00)
+180_See_you_tomorrow_Nisha.wav: No weak word (confidence: 1.00)
+626_Yo_Nisha_slap_5_stars_on_this_essay.wav: No weak word (confidence: 1.00)
+618_Nisha_give_that_memoir_a_flat_0_Total_mess.wav: No weak word (confidence: 1.00)
+645_Good_morning_Nisha_could_you_tell_me_todays_weather_forecast_so_I_know_whether_to_carry_an_umbrella_or_not.wav: No weak word (confidence: 1.00)
+615_Hey_Nisha_slap_0_stars_on_that_textbook.wav: No weak word (confidence: 1.00)
+608_Nisha_rate_this_textbook_2_stars.wav: Weak word detected (confidence: 1.00)
+576_Nisha_tell_Shiv_lets_bunk_class_Ill_handle_the_moral_guilt_later.wav: Weak word detected (confidence: 1.00)
+677_I_just_cant_thank_you_enough_Nisha_for_always_keeping_track_of_the_little_things_that_I_tend_to_overlook.wav: No weak word (confidence: 1.00)
+456_Nisha_show_me_live_updates_on_available_shelters_during_a_crisis.wav: Weak word detected (confidence: 1.00)
+018_Nisha_I_missed_you.wav: Weak word detected (confidence: 1.00)
+607_Hey_Nisha_where_you_from_originally.wav: Weak word detected (confidence: 1.00)
+586_Nisha_drop_a_message_to_my_intern_chill_mistakes_happen_just_fix_it.wav: Weak word detected (confidence: 1.00)
+059_I_love_you_Nisha.wav: Weak word detected (confidence: 1.00)
+031_Nisha_play_my_favorite_song.wav: Weak word detected (confidence: 1.00)
+120_So_Nisha_lets_do_this.wav: Weak word detected (confidence: 1.00)
+374_Nisha_close_the_safe_deposit_box.wav: Weak word detected (confidence: 1.00)
+538_Nisha_set_a_reminder_to.wav: Weak word detected (confidence: 1.00)
+225_Dont_give_up_Nisha.wav: Weak word detected (confidence: 1.00)
+684_Sometimes_I_forget_Nisha_that_youre_not_actually_human_because_of_the_way_you_interact_with_me.wav: Weak word detected (confidence: 1.00)
+691_I_think_Nisha_that_having_you_around_is_like_having_a_personal_assistant_and_a_friend_rolled_into_one.wav: Weak word detected (confidence: 1.00)
+218_Im_sorry_Nisha.wav: Weak word detected (confidence: 1.00)
+632_Nisha_give_this_old_novel_2_stars.wav: No weak word (confidence: 1.00)
+676_Nisha_can_you_draft_a_quick_message_to_my_friend_telling_him_Ill_be_late_but_will_definitely_show_up.wav: No weak word (confidence: 1.00)
+041_I_think_Nisha_is_really_good_at_this.wav: No weak word (confidence: 1.00)
+010_Hows_it_going_Nisha.wav: No weak word (confidence: 1.00)
+623_Nisha_tag_this_essay_3_out_of_6.wav: No weak word (confidence: 1.00)
+636_Assign_3_stars_to_this_novel_Nisha.wav: No weak word (confidence: 1.00)
+285_I_need_your_opinion_Nisha.wav: No weak word (confidence: 1.00)
+591_Nisha_draft_this_email_carefully_Remember_last_time_messed_up_the_subject_line.wav: No weak word (confidence: 1.00)
+639_Nisha_please_drop_a_2_on_this_novel.wav: No weak word (confidence: 1.00)
+670_Hey_Nisha_while_youre_at_it_could_you_also_check_whats_trending_in_tech_news_today.wav: No weak word (confidence: 1.00)
+025_Can_you_hear_me_Nisha.wav: No weak word (confidence: 1.00)
+662_Hey_Nisha_can_you_please_set_an_alarm_for_630_am_tomorrow_because_I_have_an_early_morning_appointment.wav: No weak word (confidence: 1.00)
+643_Nisha_can_you_please_play_some_relaxing_music_because_Ive_had_a_really_long_day_and_I_just_want_to_chill_for_a_bit.wav: No weak word (confidence: 1.00)
+659_I_was_really_impressed_Nisha_when_you_helped_me_organize_all_my_messy_files_in_such_a_short_time.wav: No weak word (confidence: 1.00)
+045_I_believe_Nisha_can_handle_it.wav: No weak word (confidence: 1.00)
+668_If_possible_Nisha_could_you_also_prepare_a_short_todo_list_for_tomorrow_so_I_dont_forget_anything_important.wav: No weak word (confidence: 1.00)
+631_Nisha_rate_this_textbook_1_and_forget_it.wav: No weak word (confidence: 1.00)
+573_Nisha_tell_Sam_forgot_our_plan_again_didnt_you.wav: No weak word (confidence: 1.00)
+281_Lets_practice_Nisha.wav: No weak word (confidence: 1.00)
+629_Rate_that_biography_5_Nisha.wav: No weak word (confidence: 1.00)
+243_Write_it_down_Nisha.wav: No weak word (confidence: 1.00)
+603_make_a_social_caption_for_my_trip_pic_and_no_cringey_hashtags_Nisha_please.wav: No weak word (confidence: 1.00)
+159_Hmm_Nisha_answer_me.wav: No weak word (confidence: 1.00)
+014_By_the_way_Nisha_did_you_see_that.wav: No weak word (confidence: 1.00)
+209_Nisha_can_we_talk.wav: No weak word (confidence: 1.00)
+566_Nisha_send_to_my_junior_good_luck_for_the_exam_dont_panic_like_me.wav: No weak word (confidence: 1.00)
+205_Did_you_enjoy_it_Nisha.wav: No weak word (confidence: 1.00)
+614_Give_this_series_a_strong_3_Nisha.wav: No weak word (confidence: 1.00)
+048_Nisha_is_always_on_time.wav: No weak word (confidence: 1.00)
+628_Nisha_that_story_was_meh_Just_a_2.wav: No weak word (confidence: 1.00)
+211_Lets_finish_this_Nisha.wav: No weak word (confidence: 1.00)
+421_Nisha_give_me_a_live_update_on_precipitation_in_my_area.wav: Weak word detected (confidence: 1.00)
+457_Nisha_whats_the_realtime_forecast_for_flooding_based_on_current_rainfall.wav: No weak word (confidence: 1.00)
+168_Alright_then_Nisha_wake_up.wav: Weak word detected (confidence: 1.00)
+317_Nisha_take_it_easy.wav: Weak word detected (confidence: 1.00)
+571_Nisha_message_to_sister_stop_stealing_my_hoodie_or_pay_hoodie_tax.wav: Weak word detected (confidence: 1.00)
+711_The_more_I_use_daily_planning_tools_the_more_I_realize_the_importance_of_having_support_from_Nisha.wav: Weak word detected (confidence: 1.00)
+037_Nisha_search_the_internet_for_this.wav: Weak word detected (confidence: 1.00)
+320_Can_you_solve_this_Nisha.wav: Weak word detected (confidence: 1.00)
+598_Nisha_make_a_note_to_my_lab_partner_and_this_time_dont_autocorrect_assignment_to_assassin.wav: Weak word detected (confidence: 1.00)
+115_So_Nisha_where_are_you.wav: Weak word detected (confidence: 1.00)
+036_Send_that_message_Nisha.wav: Weak word detected (confidence: 1.00)
+117_So_Nisha_dont_be_late.wav: Weak word detected (confidence: 1.00)
+267_Dont_worry_about_it_Nisha.wav: Weak word detected (confidence: 1.00)
+448_Nisha_show_me_current_alerts_for_ridesharing_outages.wav: Weak word detected (confidence: 1.00)
+458_Nisha_check_for_power_disruptions_around_my_current_location.wav: Weak word detected (confidence: 1.00)
+542_Nisha_write_to_Riya_and_ask_if_shes_alive_or_still_ghosting_me.wav: Weak word detected (confidence: 1.00)
+113_So_Nisha_whats_going_on.wav: Weak word detected (confidence: 1.00)
+391_tell_me_a_fun_fact_Nisha.wav: Weak word detected (confidence: 1.00)
+200_Welcome_back_Nisha.wav: Weak word detected (confidence: 1.00)
+387_Nisha_whats_your_spirit_animal.wav: Weak word detected (confidence: 1.00)
+494_Nisha_whats_the_realtime_news_coming_out_of_the_G7_summit.wav: Weak word detected (confidence: 1.00)
+731_Ive_noticed_fewer_mistakes_in_my_work_now_that_I_doublecheck_everything_with_Nisha.wav: No weak word (confidence: 1.00)
+012_Nisha_do_you_want_to_grab_some_food.wav: Weak word detected (confidence: 1.00)
+728_My_deadlines_have_been_easier_to_manage_because_I_get_timely_notifications_from_Nisha.wav: No weak word (confidence: 1.00)
+560_Nisha_message_to_that_annoying_class_group_mute_mode_ON_forever.wav: No weak word (confidence: 1.00)
+131_Wait_Nisha_can_you_hear_me.wav: No weak word (confidence: 1.00)
+675_The_way_you_handled_it_yesterday_Nisha_made_me_realize_how_efficient_and_reliable_you_really_are.wav: No weak word (confidence: 1.00)
+577_Nisha_write_to_Kiran_dont_forget_our_deal_do_notes_u_bring_food.wav: No weak word (confidence: 1.00)
+202_Thats_not_fair_Nisha.wav: No weak word (confidence: 1.00)
+619_That_saga_had_me_hooked_Give_it_5_Nisha.wav: No weak word (confidence: 1.00)
+242_Nisha_open_the_door.wav: No weak word (confidence: 1.00)
+660_If_you_dont_mind_Nisha_could_you_suggest_a_good_movie_to_watch_tonight_thats_not_too_long_or_too_heavy.wav: No weak word (confidence: 1.00)
+610_Nisha_score_this_memoir_a_5_It_was_good_stuff.wav: No weak word (confidence: 1.00)
+011_Hey_Nisha_are_you_free_right_now.wav: No weak word (confidence: 1.00)
+204_Nisha_youre_so_funny.wav: No weak word (confidence: 1.00)
+rEv1qfYYOXZuxh3rxufLWkNn/OcRpP1ofLONtiBhsy+G6mQEQLXruQ==
+022_What_do_you_think_Nisha.wav: No weak word (confidence: 1.00)
+219_Thank_you_again_Nisha.wav: No weak word (confidence: 1.00)
