@@ -192,9 +192,126 @@ This blueprint ensures:
 4. **Low-latency, CPU-only operation** → designed for your Arch desktop
 5. **Extensible detection action** → currently print line; future audio or ASR integration straightforward
 
----
-
 If you want, I can also provide a **diagram showing buffer flow, window overlap, and decision logic** visually — this helps to understand how the audio moves from PvRecorder → HuBERT → MLP → output.
 
-Do you want me to create that diagram?
+---
 
+
+
+Yes — you can map your current manifest → BC-ResNet pipeline. Below I’ll walk through exactly **what will happen** and **how to turn your CSV-like table with many TTS voices into a training-ready BC-ResNet keyword-spotting dataset**, plus practical tips for the tricky bits (like when “Nisha” is in the middle of a sentence).
+
+I’ll assume your table rows are one *sentence* and the multiple columns are parallel audio files (one per TTS voice). That means your real sample count = `rows × number_of_voice-columns` unless you collapse/merge them.
+
+---
+
+# End-to-end pipeline (conceptual, no code)
+
+1. **Flatten manifest → example list**
+
+   * Expand each row into one example per voice column (each column points to a separate `.wav`).
+   * Create a table of `(wav_path, text, label)` for every voice file.
+   * Now you have explicit positive and negative utterances as separate files.
+
+2. **Decide example length / windowing strategy**
+
+   * BC-ResNet works best on short windows (100–1000 ms typical for keyword spotting).
+   * Two common choices:
+
+     * **Utterance-level**: treat the whole TTS sentence as one sample (simple, but the wake word may be a short part of it; model sees extra context).
+     * **Window-level (recommended)**: cut fixed-length windows (e.g., 600–1000 ms) that *contain* the keyword for positives and random windows for negatives.
+   * If “Nisha” can appear anywhere in the sentence, window-level training is preferable (helps network focus on the phonetic cue).
+
+3. **Locate the keyword in positive files**
+   Options to get timestamps for the word “Nisha”:
+
+   * **Best (recommended): Forced alignment (MFA or similar)**
+     Use Montreal Forced Aligner / any aligner on each utterance to get token timestamps; pick the timestamp for the token “Nisha” and center a window on it.
+   * **If you don’t want to align**
+
+     * Heuristic: use `start/middle/end` info if you kept it; or split the sentence into many overlapping short windows (sliding window) and label a window positive if the original sentence label contains “Nisha”. This is noisier because many positive windows won’t actually contain the name.
+   * **Alternative:** synthesize isolated “Nisha” clips from TTS (easier) and treat those as positives in addition to sentence windows.
+
+4. **Create positive windows**
+
+   * Using timestamps (from MFA): extract a fixed-length window (e.g., 700 ms) centered on “Nisha” (or slightly asymmetric if it’s at start/end).
+   * If using sliding windows: find the window that overlaps the estimated position most and label that positive.
+
+5. **Create negative windows**
+
+   * Random windows from negative utterances.
+   * Hard negatives: windows from positives that *don’t* contain “Nisha” (to teach the network context discrimination).
+   * Phonetic negatives: phrases with phonemes similar to “Nisha” to reduce false positives.
+
+6. **Feature extraction (BC-ResNet input)**
+   For every window:
+
+   * Convert to mono 16 kHz float32 (you already have that).
+   * Compute log-Mel spectrogram (recommended params):
+
+     * window ≈ 25 ms (400 samples), hop ≈ 10 ms (160 samples)
+     * n_mels = 64 (or 80)
+     * power → convert to dB (log) and optionally clamp to [-80 dB, 0 dB]
+   * Normalize: per-utterance mean-variance or dataset-level stats.
+
+7. **Training target & labels**
+
+   * Binary label: `1` = window contains “Nisha”, `0` = otherwise.
+   * Loss: binary cross-entropy. Use focal loss or class weights if imbalance exists.
+
+8. **Model variants / training choices**
+
+   * **Extract embeddings from BC-ResNet (freeze backbone)**
+
+     * Pass mel through BC-ResNet, take penultimate layer / pooled feature vector, then train a small MLP (this mirrors your HuBERT→MLP flow).
+     * Pros: faster, fewer params to train. Good if your dataset is small.
+   * **Fine-tune BC-ResNet end-to-end**
+
+     * Add a small classification head, train entire network (or train head + last blocks).
+     * Pros: better accuracy if you have enough varied data and augmentations; cons: longer training, risk of overfitting.
+   * **Hybrid**: freeze early layers, fine-tune later layers + head.
+
+9. **Augmentation (you already added noise — good)**
+
+   * Add: additive noises at random SNRs, room reverberation (RIR), time stretch ±5–10%, pitch shift small, random gain, SpecAugment (time/freq masks).
+   * These reduce false positives in real environments.
+
+10. **Validation / metrics**
+
+    * Use realistic held-out data (no overlap in speaker/voice if possible).
+    * Metrics to track: ROC-AUC, precision @ fixed FPR, false alarm rate per hour (important), detection latency.
+    * Tune classification threshold based on desired false alarm rate vs recall.
+
+11. **Export / runtime**
+
+    * Export model to ONNX for low-latency inference.
+    * Real-time pipeline: sliding window (e.g., 1s window or 700ms window) with hop 100–250 ms → compute mel → BC-ResNet forward → pool or classifier → threshold decision.
+    * Keep mel extraction optimized (use torchaudio / C++ bindings or precompute small FFTs).
+
+---
+
+# Practical notes specific to your data format
+
+* Your positive/negative CSV with many voice columns: **expand rows per voice**. Each voice column is an independent sample (so 741 rows × 8 voices → 5928 utterances). Good — extra vocal variety helps generalization.
+* Because your positives are full sentences where “Nisha” may be anywhere, **forced alignment** is the cleanest next step — it gives exact start/end times for “Nisha,” which lets you extract tight keyword windows and avoid noisy labels.
+* If you don’t use alignment, expect noisier supervision. Compensate with more data and heavy augmentation.
+* Since TTS files are “clean” originally, your added noise helps — but include real recorded examples of “Nisha” spoken by humans if possible (that reduces sim-to-real gap).
+* Balance positives and negatives per training batch. If you have many negatives, sample them so training doesn’t bias toward “no wake.”
+
+---
+
+# Quick recommendations (concise)
+
+* Run **forced alignment** on every positive file and extract 600–800 ms windows centered on the aligned “Nisha”.
+* Use **64-bin log-Mel** (25 ms / 10 ms hop).
+* Either **freeze BC-ResNet and train an MLP** on pooled features (fast), or fine-tune last blocks + head if you have >5k varied examples.
+* Use heavy augmentations (SNR 0–20 dB, RIR, SpecAugment).
+* Evaluate on real-recorded clips and tune decision threshold to control false alarms per hour.
+
+---
+
+If you want, next I can:
+
+* give the exact forced-alignment commands/workflow (MFA) for your dataset, or
+* show how to convert your CSV into a window-level manifest (start/end timestamps + label) for training BC-ResNet.
+
+Which of those helps you most right now?
